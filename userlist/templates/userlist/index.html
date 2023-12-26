@@ -1,0 +1,43 @@
+{% extends 'userlist/base.html' %}
+
+{% block content %}
+
+<!-- List_of_Users -->
+<ul class="list_1">
+    {% for item in users %}
+    <li><strong>{{ item.first_name }} {{ item.last_name }}</strong></li>
+    <li>{{ item.dob }}</li>
+    <li>{{ item.sex_id }}</li>
+    <hr>
+    {% endfor %}
+</ul>
+
+<!-- Pagination -->
+<div class="pagination">
+    <ul>
+        {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}">«</a></li>
+        {% endif %}
+
+    {% for p in paginator.page_range %}
+        {% if page_obj.number == p %}
+            <li class="active">{{ p }}</li>
+        {% else %}
+            <li><a href="?page={{ p }}">{{ p }}</a></li>
+        {% endif %}
+    {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}">»</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+{% if request.user.is_authenticated %}
+<p class="btn"><strong>Привет, {{user.username}}</strong><a class="btn" href="{% url 'logout' %}">Выйти</a></p>
+{% else %}
+<a class="btn" href="{% url 'registration' %}">Регистрация</a>
+<a class="btn" href="{% url 'login' %}">Войти</a>
+{% endif %}
+
+{% endblock content %}

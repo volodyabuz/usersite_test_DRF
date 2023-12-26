@@ -1,0 +1,12 @@
+{% extends 'userlist/base.html' %}
+
+{% block content %}
+<a class="btn" href="{% url 'home' %}">Главная</a>
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Регистрация</button>
+</form>
+
+{% endblock content %}

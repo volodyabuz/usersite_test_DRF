@@ -1,0 +1,51 @@
+.header {
+    background-color: antiquewhite;
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-size: 32px;
+}
+
+.list_1 {
+    text-decoration: none;
+    font-style: italic;
+    list-style: none;
+}
+
+.btn {
+    text-decoration: none;
+    border-radius: 2px;
+    color: black;
+    margin-bottom: 10px;
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+hr {
+    margin-bottom: 40px;
+}
+
+.pagination ul {
+    /* margin: 0 auto 60px; */
+    display: block;
+    font-size: 18px;
+    list-style: none;
+    text-align: center;
+}
+
+.pagination ul li {
+    display: inline-block;
+    margin: 0 10px 0 ;
+}
+
+.pagination ul li a {
+    float: left;
+    text-decoration: none;
+}
+
+.pagination ul li.active {
+    padding: 8px 16px;
+    background-color: antiquewhite;
+    color: black;
+}

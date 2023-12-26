@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'userlist/css/style.css' %}">
+</head>
+<body>
+    <div class="header"><p>{{title}}</p></div>
+    <hr>
+
+    {% block content %}
+    {% endblock content %}
+
+</body>
+</html>
