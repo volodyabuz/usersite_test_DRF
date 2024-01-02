@@ -62,6 +62,11 @@ def logout_user(request):
     return redirect('login')
 
 
+class UserListAPIList(generics.ListCreateAPIView):
+    queryset = UserList.objects.all()
+    serializer_class = UserListSerializer
+
+
 class UserListAPIView(APIView):
     def get(self, request):
         w = UserList.objects.all()
@@ -70,15 +75,37 @@ class UserListAPIView(APIView):
     def post(self, request):
         serializer = UserListSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
 
-        post_new = UserList.objects.create(
-            first_name=request.data['first_name'],
-            last_name=request.data['last_name'],
-            dob=request.data['dob'],
-            sex_id_id=request.data['sex_id_id'],
-        )
+        return Response({'user_new': serializer.data})
 
-        return Response({'user_new': UserListSerializer(post_new).data})
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Метод PUT не определен"})
+
+        try:
+            instance = UserList.objects.get(pk=pk)
+        except:
+            return Response({"error": "Объект не найден"})
+
+        serializer = UserListSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"post": serializer.data})
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Метод DELETE не определен"})
+        try:
+            item_to_del = UserList.objects.get(pk=pk)
+            item_to_del.delete()
+        except:
+            return Response({"error": "Объект не найден"})
+        
+        return Response({"post": "deleted post" + str(pk)})
 
 # class UserListAPIView(generics.ListAPIView):
 #     queryset = UserList.objects.all()

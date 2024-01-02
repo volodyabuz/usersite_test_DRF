@@ -11,11 +11,11 @@ from .models import *
 #         self.last_name = last_name
 
 
-class UserListSerializer(serializers.Serializer):
-    first_name = serializers.CharField(max_length=255)
-    last_name = serializers.CharField()
-    dob = serializers.DateField()
-    sex_id_id = serializers.IntegerField()
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserList
+        fields = "__all__"
+
 
 
 
