@@ -11,6 +11,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
+from rest_framework.decorators import action
 
 from .serializers import UserListSerializer
 from .forms import *
@@ -66,6 +67,18 @@ def logout_user(request):
 class UserListViewSet(viewsets.ModelViewSet):
     queryset = UserList.objects.all()
     serializer_class = UserListSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        if not pk:
+            return UserList.objects.all()[:3]
+        return UserList.objects.filter(pk=pk)
+
+    @action(methods=['get'], detail=True)
+    def mf(self, request, pk=None):
+        sex = MaleFemale.objects.get(pk=pk)
+        return Response({'sex': sex.sex})
+
 
 
 # class UserListAPIList(generics.ListCreateAPIView):
