@@ -10,6 +10,7 @@ from django.contrib.auth import logout, login
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 from .serializers import UserListSerializer
 from .forms import *
@@ -62,60 +63,22 @@ def logout_user(request):
     return redirect('login')
 
 
-class UserListAPIList(generics.ListCreateAPIView):
-    queryset = UserList.objects.all()
-    serializer_class = UserListSerializer
-
-class UserListAPIUpdate(generics.UpdateAPIView):
+class UserListViewSet(viewsets.ModelViewSet):
     queryset = UserList.objects.all()
     serializer_class = UserListSerializer
 
 
-class UserListAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = UserList.objects.all()
-    serializer_class = UserListSerializer
-
-
-# class UserListAPIView(APIView):
-#     def get(self, request):
-#         w = UserList.objects.all()
-#         return Response({'users': UserListSerializer(w, many=True).data})
-
-#     def post(self, request):
-#         serializer = UserListSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-
-#         return Response({'user_new': serializer.data})
-
-#     def put(self, request, *args, **kwargs):
-#         pk = kwargs.get("pk", None)
-#         if not pk:
-#             return Response({"error": "Метод PUT не определен"})
-
-#         try:
-#             instance = UserList.objects.get(pk=pk)
-#         except:
-#             return Response({"error": "Объект не найден"})
-
-#         serializer = UserListSerializer(data=request.data, instance=instance)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-
-#         return Response({"post": serializer.data})
-
-#     def delete(self, request, *args, **kwargs):
-#         pk = kwargs.get("pk", None)
-#         if not pk:
-#             return Response({"error": "Метод DELETE не определен"})
-#         try:
-#             item_to_del = UserList.objects.get(pk=pk)
-#             item_to_del.delete()
-#         except:
-#             return Response({"error": "Объект не найден"})
-        
-#         return Response({"post": "deleted post" + str(pk)})
-
-# class UserListAPIView(generics.ListAPIView):
+# class UserListAPIList(generics.ListCreateAPIView):
 #     queryset = UserList.objects.all()
 #     serializer_class = UserListSerializer
+
+# class UserListAPIUpdate(generics.UpdateAPIView):
+#     queryset = UserList.objects.all()
+#     serializer_class = UserListSerializer
+
+
+# class UserListAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = UserList.objects.all()
+#     serializer_class = UserListSerializer
+
+
