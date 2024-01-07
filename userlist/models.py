@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class UserList(models.Model):
@@ -6,6 +7,7 @@ class UserList(models.Model):
     last_name = models.CharField(max_length=40, verbose_name='Фамилия')
     dob = models.DateField(blank=True, verbose_name='Дата рождения')
     sex_id = models.ForeignKey('MaleFemale',on_delete=models.CASCADE, default=1, verbose_name='Пол')
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.first_name

@@ -12,7 +12,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 
+from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializers import UserListSerializer
 from .forms import *
 from .models import *
@@ -64,34 +66,17 @@ def logout_user(request):
     return redirect('login')
 
 
-class UserListViewSet(viewsets.ModelViewSet):
+class UserListAPIList(generics.ListCreateAPIView):
     queryset = UserList.objects.all()
     serializer_class = UserListSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    def get_queryset(self):
-        pk = self.kwargs.get('pk')
-        if not pk:
-            return UserList.objects.all()[:3]
-        return UserList.objects.filter(pk=pk)
+class UserListAPIUpdate(generics.RetrieveUpdateAPIView):
+    queryset = UserList.objects.all()
+    serializer_class = UserListSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
 
-    @action(methods=['get'], detail=True)
-    def mf(self, request, pk=None):
-        sex = MaleFemale.objects.get(pk=pk)
-        return Response({'sex': sex.sex})
-
-
-
-# class UserListAPIList(generics.ListCreateAPIView):
-#     queryset = UserList.objects.all()
-#     serializer_class = UserListSerializer
-
-# class UserListAPIUpdate(generics.UpdateAPIView):
-#     queryset = UserList.objects.all()
-#     serializer_class = UserListSerializer
-
-
-# class UserListAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = UserList.objects.all()
-#     serializer_class = UserListSerializer
-
-
+class UserListAPIDestroy(generics.RetrieveDestroyAPIView):
+    queryset = UserList.objects.all()
+    serializer_class = UserListSerializer
+    permission_classes = (IsAdminOrReadOnly,)
