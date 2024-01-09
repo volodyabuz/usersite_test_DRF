@@ -12,7 +12,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializers import UserListSerializer
@@ -74,7 +75,8 @@ class UserListAPIList(generics.ListCreateAPIView):
 class UserListAPIUpdate(generics.RetrieveUpdateAPIView):
     queryset = UserList.objects.all()
     serializer_class = UserListSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication, )
 
 class UserListAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = UserList.objects.all()
